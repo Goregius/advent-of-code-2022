@@ -24,7 +24,7 @@ private fun part2(input: String): Int = input.lines().count { line ->
     firstSections.any { it in secondSections }
 }
 
-private fun parseLine(line: String) = line
+private fun parseLine(line: String): List<IntRange> = line
     .split(",")
     .map { rangeText ->
         val rangeList = rangeText.split("-").map { it.toInt() }
