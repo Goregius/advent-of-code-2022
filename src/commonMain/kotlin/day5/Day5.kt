@@ -1,16 +1,7 @@
 package day5
 
-import utils.readInput
-
-private fun main() {
-    val input = readInput(5)
+fun part1(input: String): String {
     val (stacks, steps) = parseInput(input)
-
-    println(part1(stacks, steps))
-    println(part2(stacks, steps))
-}
-
-private fun part1(stacks: List<Collection<Char>>, steps: Iterable<Step>): String {
     val stacksCopy = stacks.map { ArrayDeque(it) }
 
     for (step in steps) {
@@ -23,7 +14,8 @@ private fun part1(stacks: List<Collection<Char>>, steps: Iterable<Step>): String
     return stacksToAnswer(stacksCopy)
 }
 
-private fun part2(stacks: List<Collection<Char>>, steps: Iterable<Step>): String {
+fun part2(input: String): String {
+    val (stacks, steps) = parseInput(input)
     val stacksCopy = stacks.map { ArrayDeque(it) }
 
     for (step in steps) {
