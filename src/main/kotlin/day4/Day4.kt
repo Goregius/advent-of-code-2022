@@ -1,6 +1,15 @@
 package day4
 
-fun part1(input: String): Int = input.lines().count { line ->
+import utils.readInput
+
+private fun main() {
+    val input = readInput(4)
+
+    println(part1(input))
+    println(part2(input))
+}
+
+private fun part1(input: String): Int = input.lines().count { line ->
     val (firstSections, secondSections) = parseLine(line)
 
     firstSections.first in secondSections &&
@@ -9,7 +18,7 @@ fun part1(input: String): Int = input.lines().count { line ->
             secondSections.last in firstSections
 }
 
-fun part2(input: String): Int = input.lines().count { line ->
+private fun part2(input: String): Int = input.lines().count { line ->
     val (firstSections, secondSections) = parseLine(line)
 
     firstSections.any { it in secondSections }

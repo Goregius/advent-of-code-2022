@@ -1,30 +1,37 @@
 package day7
 
-private sealed interface FileSystemItemBuilder {
+import utils.readInput
+
+sealed interface FileSystemItemBuilder {
     val name: String
 }
 
-private data class DirectoryInfo(
+data class DirectoryInfo(
     override val name: String,
     val children: MutableSet<FileSystemItemBuilder> = mutableSetOf(),
     var size: Int = 0,
 ) : FileSystemItemBuilder
-private data class FileInfo(val size: Int, override val name: String) : FileSystemItemBuilder
+data class FileInfo(val size: Int, override val name: String) : FileSystemItemBuilder
 
-fun part1(input: String): Int {
-    val fileSystem = parseInput(input)
+private fun main() {
+    val input = readInput(7)
+    val lines = input.lines()
+    val commandOutputs = parseToCommandOutputs(lines)
+
+    println(part1(buildFileSystem(commandOutputs)))
+    println(part2(buildFileSystem(commandOutputs)))
+}
+
+private fun part1(fileSystem: DirectoryInfo): Int {
     return fileSystem.traverseDirectories().sumOf { if (it.size <= 100000) it.size else 0 }
 }
 
-fun part2(input: String): Int {
-    val fileSystem = parseInput(input)
+fun part2(fileSystem: DirectoryInfo, totalDiskSpace: Int = 70000000, desiredUnusedSpace: Int = 30000000): Int {
     val usedDiskSpace = fileSystem.size
-    val unusedDiskSpace = 70_000_000 - usedDiskSpace
-    val minDiskSpaceToDelete = 30_000_000 - unusedDiskSpace
+    val unusedDiskSpace = totalDiskSpace - usedDiskSpace
+    val minDiskSpaceToDelete = desiredUnusedSpace - unusedDiskSpace
     return fileSystem.traverseDirectories().filter { it.size >= minDiskSpaceToDelete }.minOf { it.size }
 }
-
-private fun parseInput(input: String) = buildFileSystem(parseToCommandOutputs(input.lines()))
 
 private fun buildFileSystem(commandOutputs: List<Pair<String, List<String>>>): DirectoryInfo {
     val directoryDeque = ArrayDeque(listOf(DirectoryInfo(name = "/")))
@@ -88,7 +95,7 @@ private fun parseToCommandOutputs(lines: List<String>): List<Pair<String, List<S
     return commandOutputs
 }
 
-private fun DirectoryInfo.traverseDirectories(): Sequence<DirectoryInfo> = sequence {
+fun DirectoryInfo.traverseDirectories(): Sequence<DirectoryInfo> = sequence {
     val queue = ArrayDeque<DirectoryInfo>()
     queue.addFirst(this@traverseDirectories)
 

@@ -1,13 +1,22 @@
 package day3
 
-fun part1(input: String): Int = input.lines().sumOf { bag ->
+import utils.readInput
+
+private fun main() {
+    val input = readInput(3)
+
+    println(part1(input))
+    println(part2(input))
+}
+
+private fun part1(input: String): Int = input.lines().sumOf { bag ->
     val firstCompartment = bag.substring(0, bag.length / 2)
     val secondCompartment = bag.substring(bag.length / 2).toSet()
 
     firstCompartment.first { it in secondCompartment }.toPriority()
 }
 
-fun part2(input: String) = input.lines().chunked(3).sumOf { group ->
+private fun part2(input: String) = input.lines().chunked(3).sumOf { group ->
     val firstBag = group[0]
     val secondBag = group[1].toSet()
     val thirdBag = group[2].toSet()

@@ -1,26 +1,28 @@
 package day8
 
-fun part1(input: String): Int {
-    val treeGrid = parseInput(input)
-    return treesWithTreesInAllDirections(treeGrid).count { (tree, treesInAllDirections) ->
+import utils.readInput
+
+private fun main() {
+    val input = readInput(8)
+    val treeGrid = input.lines().map { line -> line.map { it.digitToInt() } }
+
+    println(part1(treeGrid))
+    println(part2(treeGrid))
+}
+
+private fun part1(treeGrid: List<List<Int>>): Int =
+    treesWithTreesInAllDirections(treeGrid).count { (tree, treesInAllDirections) ->
         treesInAllDirections
             .map { trees -> trees.all { it < tree } }
             .any { it }
     }
-}
 
-fun part2(input: String): Int {
-    val treeGrid = parseInput(input)
-    return treesWithTreesInAllDirections(treeGrid).maxOf { (tree, treesInAllDirections) ->
+private fun part2(treeGrid: List<List<Int>>): Int =
+    treesWithTreesInAllDirections(treeGrid).maxOf { (tree, treesInAllDirections) ->
         treesInAllDirections
             .map { countTreesUntilBlocked(it, tree) }
             .reduce { acc, treesUntilBlocked -> acc * treesUntilBlocked }
     }
-}
-
-private fun parseInput(input: String): List<List<Int>> {
-    return input.lines().map { line -> line.map { it.digitToInt() } }
-}
 
 private fun countTreesUntilBlocked(trees: List<Int>, treeHeight: Int): Int {
     for (i in trees.indices) {

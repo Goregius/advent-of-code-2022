@@ -1,6 +1,15 @@
 package day2
 
-fun part1(input: String): Int {
+import utils.readInput
+
+fun main() {
+    val input = readInput(2)
+
+    println(part1(input))
+    println(part2(input))
+}
+
+private fun part1(input: String): Int {
     val rounds = input.lines().map { line ->
         line[0].toShape() to line[2].toShape()
     }
@@ -8,8 +17,8 @@ fun part1(input: String): Int {
     return calculateScore(rounds)
 }
 
-fun part2(input: String): Int {
-    val rounds = input.trim().lines().map { line ->
+private fun part2(input: String): Int {
+    val rounds = input.lines().map { line ->
         val opponentShape = line[0].toShape()
         val result = line[2].toResult()
         val shape = opponentShape shapeForResult result
@@ -37,7 +46,7 @@ private  fun Char.toResult(): Result = when (this) {
     else -> error("invalid char '$this' for a result")
 }
 
-private infix fun Shape.shapeForResult(result: Result) = when (this) {
+infix fun Shape.shapeForResult(result: Result) = when (this) {
     Shape.Rock -> when (result) {
         Result.Win -> Shape.Paper
         Result.Loss -> Shape.Scissors
@@ -57,7 +66,7 @@ private infix fun Shape.shapeForResult(result: Result) = when (this) {
     }
 }
 
-private infix fun Shape.resultAgainst(otherShape: Shape): Result = when (this) {
+infix fun Shape.resultAgainst(otherShape: Shape): Result = when (this) {
     Shape.Rock -> when (otherShape) {
         Shape.Rock -> Result.Draw
         Shape.Paper -> Result.Loss
@@ -77,10 +86,10 @@ private infix fun Shape.resultAgainst(otherShape: Shape): Result = when (this) {
     }
 }
 
-private enum class Shape(val score: Int) {
+enum class Shape(val score: Int) {
     Rock(1), Paper(2), Scissors(3)
 }
 
-private enum class Result(val score: Int) {
+enum class Result(val score: Int) {
     Win(6), Loss(0), Draw(3)
 }

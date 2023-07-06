@@ -1,13 +1,21 @@
 package day9
 
-fun part1(input: String): Int = calculateVisitedPositions(parseInput(input), 2)
-fun part2(input: String): Int = calculateVisitedPositions(parseInput(input), 10)
+import utils.readInput
 
-private fun parseInput(input: String): List<Vector2D> = input.lines().flatMap { line ->
-    line.split(" ").let { (direction, numSteps) ->
-        List(numSteps.toInt()) { directionToVector.getValue(direction[0]) }
+private fun main() {
+    val input = readInput(9)
+    val steps: List<Vector2D> = input.lines().flatMap { line ->
+        line.split(" ").let { (direction, numSteps) ->
+            List(numSteps.toInt()) { directionToVector.getValue(direction[0]) }
+        }
     }
+
+    println(part1(steps))
+    println(part2(steps))
 }
+
+private fun part1(steps: Iterable<Vector2D>): Int = calculateVisitedPositions(steps, 2)
+private fun part2(steps: Iterable<Vector2D>): Int = calculateVisitedPositions(steps, 10)
 
 private fun calculateVisitedPositions(steps: Iterable<Vector2D>, knotsCount: Int): Int {
     val positions = MutableList(knotsCount) { Vector2D.Zero }

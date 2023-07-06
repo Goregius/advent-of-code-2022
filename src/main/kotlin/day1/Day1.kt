@@ -1,6 +1,14 @@
 package day1
 
-fun part1(input: String): Int {
+import utils.readInput
+
+private fun main() {
+    val input = readInput(1)
+    println(part1(input))
+    println(part2(input))
+}
+
+private fun part1(input: String): Int {
     val foodPerElf = parseInput(input)
 
     val caloriesPerElf = foodPerElf.calculateCaloriesPerElf()
@@ -8,7 +16,7 @@ fun part1(input: String): Int {
     return caloriesPerElf.max()
 }
 
-fun part2(input: String): Int {
+private fun part2(input: String): Int {
     val foodPerElf = parseInput(input)
 
     val caloriesPerElf = foodPerElf.calculateCaloriesPerElf()
@@ -19,7 +27,7 @@ fun part2(input: String): Int {
 private fun parseInput(input: String) = input
     .split("\n\n")
     .map { elfText ->
-        elfText.trim().lines().map { it.toInt() }
+        elfText.lines().map { it.toInt() }
     }
 
 private fun List<List<Int>>.calculateCaloriesPerElf() = map { it.sum() }
