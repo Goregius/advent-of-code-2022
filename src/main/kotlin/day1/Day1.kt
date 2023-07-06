@@ -25,7 +25,7 @@ private fun part2(input: String): Int {
 }
 
 private fun parseInput(input: String) = input
-    .split("\n\n")
+    .split("\r\n\r\n", "\n\n", "\r\r")
     .map { elfText ->
         elfText.lines().map { it.toInt() }
     }
