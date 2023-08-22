@@ -4,7 +4,6 @@ import utils.readInput
 
 private fun main() {
     val input = readInput(1)
-    println("test")
     println(part1(input))
     println(part2(input))
 }
